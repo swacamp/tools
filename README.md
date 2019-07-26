@@ -15,7 +15,7 @@ the swacamp website.
 
 The schedule should look like:
 
-<img alt="spreadsheet google drive" src="img/spreadsheet.png"/>
+![spreadsheet google drive](img/spreadsheet.png)
 
 |  Column   |  Idea |
 |---        |---|
