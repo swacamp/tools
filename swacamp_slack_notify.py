@@ -3,6 +3,7 @@ import json
 import datetime
 from urllib import quote
 import sys
+import time
 
 schedule_file = sys.argv[1]
 slack_hook_url = sys.argv[2]
@@ -30,20 +31,33 @@ def sendNotificationToSlackFor(entries, day, time):
 def formatTime(hour, minute):
     return '{num:02d}'.format(num=hour) + ':' + '{num:02d}'.format(num=minute)
 
-now = datetime.datetime.now()
 
-with open(schedule_file, 'r') as myfile:
-    content = myfile.read()
-content = content.replace("callback(", "")[:-1]
+def tick(schedule_file, slack_hook_url):
+    now = datetime.datetime.now()
 
-minute = now.minute
-timeToLookFor = calculateTimeToLookForInSchedule(now)
-dateToLookFor = str(datetime.date.today())
-jsonContent = json.loads(content)
+    with open(schedule_file, 'r') as myfile:
+        content = myfile.read()
+    content = content.replace("callback(", "")[:-1]
 
-forDay = filter(lambda x: x['date'] == dateToLookFor, jsonContent)
-forTime = filter(lambda x: x['time'] == timeToLookFor, forDay)
+    minute = now.minute
+    timeToLookFor = calculateTimeToLookForInSchedule(now)
+    dateToLookFor = str(datetime.date.today())
+    jsonContent = json.loads(content)
 
-if len(forTime) > 0:
-    sendNotificationToSlackFor(forTime, dateToLookFor, timeToLookFor)
+    forDay = filter(lambda x: x['date'] == dateToLookFor, jsonContent)
+    forTime = filter(lambda x: x['time'] == timeToLookFor, forDay)
+
+    if len(forTime) > 0:
+        sendNotificationToSlackFor(forTime, dateToLookFor, timeToLookFor)
+
+
+
+while (True):
+    time.sleep(70)
+    tick(schedule_file, slack_hook_url)
+
+
+
+
+
 
