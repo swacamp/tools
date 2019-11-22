@@ -55,7 +55,7 @@ def tick(schedule_file, slack_hook_url):
 
 while (True):
     tick(schedule_file, slack_hook_url)
-    time.sleep(70)
+    time.sleep(300)
 
 
 
