@@ -42,7 +42,7 @@ def tick(schedule_file, slack_hook_url):
     minute = now.minute
     timeToLookFor = calculateTimeToLookForInSchedule(now)
     dateToLookFor = str(datetime.date.today())
-    print("Notify entries of {} {}".format(dateToLookFor, timeToLookFor))
+    print "Notify entries of {} {}".format(dateToLookFor, timeToLookFor)
     jsonContent = json.loads(content)
 
     forDay = filter(lambda x: x['date'] == dateToLookFor, jsonContent)
