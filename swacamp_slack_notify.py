@@ -34,15 +34,15 @@ def formatTime(hour, minute):
 
 def tick(schedule_file, slack_hook_url):
     now = datetime.datetime.now()
+    minute = now.minute
+    timeToLookFor = calculateTimeToLookForInSchedule(now)
+    dateToLookFor = str(datetime.date.today())
+
+    print "Notify entries of {} {}".format(dateToLookFor, timeToLookFor)
 
     with open(schedule_file, 'r') as myfile:
         content = myfile.read()
     content = content.replace("callback(", "")[:-1]
-
-    minute = now.minute
-    timeToLookFor = calculateTimeToLookForInSchedule(now)
-    dateToLookFor = str(datetime.date.today())
-    print "Notify entries of {} {}".format(dateToLookFor, timeToLookFor)
     jsonContent = json.loads(content)
 
     forDay = filter(lambda x: x['date'] == dateToLookFor, jsonContent)
